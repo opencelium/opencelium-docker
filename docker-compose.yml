@@ -22,7 +22,6 @@ services:
      - 7474:7474
      - 7687:7687
    volumes:
-     - ./plugins:/plugins
      - ./data:/data
    environment:
      # Raise memory limits
@@ -42,6 +41,8 @@ services:
       - 9090:9090
     volumes:
       - oc-sql:/backend/database
+      - ./invoker/:/backend/src/main/resources/invoker
+      - ./templates/:/backend/src/main/resources/templates
 
   oc-frontend:
     container_name: oc-frontend
