@@ -30,6 +30,30 @@ services:
      - NEO4J_dbms_memory_heap_max__size=1G
      - NEO4J_AUTH=neo4j/secret
 
+  netdata:
+    image: netdata/netdata:v1.31.0
+    container_name: netdata
+    ports:
+      - 19999:19999
+    restart: unless-stopped
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - netdataconfig:/etc/netdata
+      - netdatalib:/var/lib/netdata
+      - netdatacache:/var/cache/netdata
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - ./tools/oc-mode.html:/usr/share/netdata/web/oc-mode.html
+    environment:
+      - DOCKER_USR=root
+      - PGID=999 # $(getent group docker | cut -d : -f 3)  
+
   oc-backend:
     container_name: oc-backend
     image: opencelium/opencelium-backend:latest
@@ -58,3 +82,6 @@ services:
 
 volumes:
   oc-sql:
+  netdataconfig:
+  netdatalib:
+  netdatacache:
