@@ -65,6 +65,7 @@ services:
       - 9090:9090
     volumes:
       - oc-sql:/backend/database
+      - oc-backend:/backend
       - ./invoker/:/backend/src/main/resources/invoker
       - ./templates/:/backend/src/main/resources/templates
 
@@ -73,6 +74,7 @@ services:
     image: opencelium/opencelium-frontend:latest
     restart: on-failure
     volumes:
+      - oc-frontend:/frontend
       - /frontend/node_modules
     ports:
       - 8888:8888
@@ -82,6 +84,8 @@ services:
 
 volumes:
   oc-sql:
+  oc-backend:
+  oc-frontend:
   netdataconfig:
   netdatalib:
   netdatacache:
