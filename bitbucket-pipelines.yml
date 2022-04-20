@@ -1,9 +1,0 @@
-pipelines:
-    branches:
-      master:
-        - step:
-           script:
-             - git remote add sync git@github.com:opencelium/opencelium-docker.git
-             - git checkout master
-             - git pull    
-             - git push sync master --tags
