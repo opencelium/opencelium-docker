@@ -23,15 +23,17 @@ services:
 #      - ./conf/ssl/certs/:/etc/ssl/certs/
 #      - ./conf/ssl/private/:/etc/ssl/private/
 #
-
+ 
   mariadb:
-    image: mariadb
+    image: mariadb:latest
     restart: always
     environment:
       MYSQL_DATABASE: opencelium
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: oc
-      MYSQL_PASSWORD: root
+      MYSQL_PASSWORD: root  
+    ulimits:
+      memlock: "262144"
     volumes:
       - oc-sql:/docker-entrypoint-initdb.d
       - ./data:/data
@@ -46,7 +48,7 @@ services:
       - oc-sql:/opt/database
 
   java:
-    image: openjdk:latest
+    image: openjdk:17.0
     depends_on:
       - mariadb
     restart: on-failure
@@ -57,10 +59,10 @@ services:
       - ./conf/application.yml:/opt/backend/src/main/resources/application.yml
       - ./invoker/:/src/main/resources/invoker
       - ./templates/:/src/main/resources/templates       
-    command: java -jar /opt/opencelium.backend-0.0.1-SNAPSHOT.jar --spring.config.location=/opt/backend/src/main/resources/application.yml
+    command: java -jar /opt/opencelium.backend-3.1.0.jar --spring.config.location=/opt/backend/src/main/resources/application.yml      
 
   neo4jdb:
-   image: neo4j:3.3.5
+   image: neo4j:5.7.0
    restart: unless-stopped
    ports:
      - 7474:7474
@@ -69,10 +71,11 @@ services:
      - ./data:/data
    environment:
      # Raise memory limits
-     - NEO4J_dbms_memory_pagecache_size=1G
-     - NEO4J_dbms.memory.heap.initial_size=1G
-     - NEO4J_dbms_memory_heap_max__size=1G
-     - NEO4J_AUTH=neo4j/secret
+     - NEO4J_server_memory_pagecache_size=1G
+     - NEO4J_server.memory.heap.initial_size=1G
+     - NEO4J_server_memory_heap_max__size=1G
+     - NEO4J_AUTH=neo4j/secret1234
+     - NEO4J_dbms.connectors.default_advertised_address=0.0.0.0
 
 volumes:
    frontend:
