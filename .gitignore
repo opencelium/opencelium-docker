@@ -3,6 +3,18 @@
 # Learn more about .gitignore:
 #     https://www.atlassian.com/git/tutorials/saving-changes/gitignore
 
+# Ignore temp data
+data/
+data/**
+mysql/
+mysql/**
+templates/
+templates/**
+
+#invoker file
+invoker/
+invoker/i-doit.xml
+
 # Node artifact files
 node_modules/
 dist/

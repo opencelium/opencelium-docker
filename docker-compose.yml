@@ -59,7 +59,11 @@ services:
       - ./conf/application.yml:/opt/backend/src/main/resources/application.yml
       - ./invoker/:/src/main/resources/invoker
       - ./templates/:/src/main/resources/templates       
+<<<<<<< HEAD
+    command: java -jar /opt/opencelium.backend-3.1.1.jar --spring.config.location=/opt/backend/src/main/resources/application.yml      
+=======
     command: java -jar /opt/opencelium.backend-3.1.0.jar --spring.config.location=/opt/backend/src/main/resources/application.yml      
+>>>>>>> e7ca26c1a4b6a4d7fec634ba8393257c8b0bd14f
 
   neo4jdb:
    image: neo4j:5.7.0

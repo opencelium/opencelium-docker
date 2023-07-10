@@ -1,58 +1,51 @@
+###########################################################################
+#                                                                         #
+#   Webserver configuration section                                       # 
+#                                                                         #
+#   Find here the default port configuration of the backend server        #
+#   and the ssl configuration.                                            #
+#                                                                         #
+###########################################################################          
+server:
+  port: 9090
+    # ssl:
+    #   enabled: true
+    #   key-store-type: PKCS12
+    #   key-store: src/main/resources/keystore.p12
+    #   key-store-password: root
+    #   key-password: root
+    #   key-alias: tomcat
+
+###########################################################################
+#                                                                         #
+#   Database configuration section of MariaDB and Neo4j                   # 
+#                                                                         #
+###########################################################################
 spring:
-  main:
-    banner-mode: "off"
-
-  data:
-    rest:
-      basePath: /api
-    neo4j:
-      url: bolt://neo4jdb:7687
-      username: neo4j
-      password: secret
-
-  jpa:
-    properties:
-      hibernate:
-        id:
-          new_generator_mappings: false
-
-    hebirnate:
-      dll-auto: validate
-
   datasource:
     url: jdbc:mariadb://mariadb:3306/opencelium?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Berlin
     username: root
     password: root
     initialization-mode: always
     driver-class-name: org.mariadb.jdbc.Driver
-
-  servlet:
-    multipart:
-      max-file-size: 99240KB
-      max-request-size: 99240KB
-
-  http:
-    multipart:
-      enabled: false
-
-  quartz:
-    properties:
-      org:
-        quartz:
-          threadPool:
-            threadCount: 5
-          jobStore:
-            tablePrefix: QRTZ_
-    job-store-type: jdbc
-
-  liquibase:
-    change-log: classpath:/db/changelog/changelog-master.xml
-
+  neo4j:
+    url: bolt://neo4jdb:7687
+    authentication:
+      username: neo4j
+      password: secret1234
+###########################################################################
+#                                                                         #
+#   Mail configuration section                                            #
+#                                                                         #
+###########################################################################
   mail:
+    opencelium:
+      from: noreply@opencelium.io
+  #    enabled: false
     host: smtp.gmail.com
     port: 587
-    username: uname
-    password: password
+    username:
+    password:
     properties:
       mail:
         smtp:
@@ -62,15 +55,94 @@ spring:
           writetimeout: 5000
           starttls:
             enable: true
-  #        socketFactory:
-  #          port: 465
-  #          class: javax.net.ssl.SSLSocketFactory
+  #        ssl:
+  #          trust: example.host.de
+###########################################################################
+#                                                                         #
+#   Configuration of third part tools                                     #
+#                                                                         #
+###########################################################################
+#  ldap:
+#    embedded:
+#      base-dn: dc=springframework,dc=org
+#      ldif: classpath:test-server.ldif
+#      port: 8389
+#      url: ldap://localhost:8389/
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: guest
+#    password: guest
+###########################################################################
+#                                                                         #
+#   Basic configuration section. Do not change the following              #
+#   configuration.                                                        #
+#                                                                         #
+###########################################################################
+  main:
+    banner-mode: "off"
+  data:
+    rest:
+      basePath: /api
+  jpa:
+    properties:
+      hibernate:
+        id:
+          new_generator_mappings: false
+    hibernate:
+      dll-auto: validate
+    open-in-view: false
+  servlet:
+    multipart:
+      max-file-size: 1000000KB
+      max-request-size: 1000000KB
+  http:
+    multipart:
+      enabled: false
+  quartz:
+    properties:
+      org:
+        quartz:
+          threadPool:
+            threadCount: 5
+          jobStore:
+            tablePrefix: QRTZ_
+    job-store-type: jdbc
+  liquibase:
+    change-log: classpath:/db/changelog/changelog-master.xml
 
-server:
-  port: 9090
+springdoc:
+  swagger-ui:
+    path: /docs
+    supportedSubmitMethods:
+      - get
+      - put
+      - post
+      - delete
+      - options
+      - head
+      - patch
+      - trace
+    tagsSorter: alpha
+    open-api-custom-settings:
+      extensions:
+        x-links-enabled: false
+  default-produces-media-type: application/json
+
+logging:
+  file: src/main/resources/logs
+  pattern:
+    console: "%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger.%M - %msg%n"
+  level:
+    org:
+      springframework:
+        data:
+          neo4j: OFF
 
 management:
   health:
+    defaults:
+      enabled: false
     status:
       http-mapping:
         DOWN: 200
@@ -79,34 +151,17 @@ management:
     health:
       show-details: always
 
-elasticsearch:
-  clustername: open_celium
-  host: localhost
-  port: 9300
-
-kibana:
-  host: localhost
-  port: 5601
-
 opencelium:
-  log: on
+  version: 3.1.1
+  debug_mode: true
   reboot:
     path: src/backend/src/main/resources/bashfile/restart.sh
-  mail:
-    from: OC_Application
   token:
-    secret: any_secret_key
+    secret: becon.opencelium
     activity-time: 18000
     experation-time: 86400
   assistant:
-    repo:
-      url: https://bitbucket.org/becon_gmbh/opencelium
+    update:
+      online:
+        url: { insert url where portal service is located }
 
-
-
-#  ldap:
-#    embedded:
-#      base-dn: dc=springframework,dc=org
-#      ldif: classpath:test-server.ldif
-#      port: 8389
-#      url: ldap://localhost:8389/
