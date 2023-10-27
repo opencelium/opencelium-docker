@@ -4,7 +4,7 @@ services:
 
   oc-frontend:
     container_name: oc-frontend
-    image: opencelium/opencelium-frontend:v3.1.2
+    image: opencelium/opencelium-frontend:v3.2
     tty: true
     volumes:
       - frontend:/opt/
@@ -41,7 +41,7 @@ services:
 
   oc-backend:
     container_name: oc-backend
-    image: opencelium/opencelium-backend:v3.1.2
+    image: opencelium/opencelium-backend:v3.2
     tty: true
     volumes:
       - backend:/opt/
@@ -59,7 +59,7 @@ services:
       - ./conf/application.yml:/opt/backend/src/main/resources/application.yml
       - ./invoker/:/src/main/resources/invoker
       - ./templates/:/src/main/resources/templates       
-    command: java -jar /opt/opencelium.backend-3.1.2.jar --spring.config.location=/opt/backend/src/main/resources/application.yml      
+    command: java -jar /opt/opencelium.backend-3.2.jar --spring.config.location=/opt/backend/src/main/resources/application.yml      
 
   neo4jdb:
    image: neo4j:5.7.0
