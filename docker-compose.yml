@@ -4,7 +4,7 @@ services:
 
   oc-frontend:
     container_name: oc-frontend
-    image: opencelium/opencelium-frontend:v3.2.1
+    image: becongmbh/opencelium-frontend:v3.2.1
     tty: true
     volumes:
       - frontend:/opt/
@@ -41,7 +41,7 @@ services:
 
   oc-backend:
     container_name: oc-backend
-    image: opencelium/opencelium-backend:v3.2.1
+    image: becongmbh/opencelium-backend:v3.2.1
     tty: true
     volumes:
       - backend:/opt/
