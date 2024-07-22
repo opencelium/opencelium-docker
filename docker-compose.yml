@@ -2,7 +2,7 @@ services:
 
   oc-frontend:
     container_name: oc-frontend
-    image: becongmbh/opencelium-frontend:v4.0
+    image: becongmbh/opencelium-frontend:v4.1
     tty: true
     volumes:
       - frontend:/opt/opencelium/
@@ -39,7 +39,7 @@ services:
 
   oc-backend:
     container_name: oc-backend
-    image: becongmbh/opencelium-backend:v4.0
+    image: becongmbh/opencelium-backend:v4.1
     tty: true
     volumes:
       - backend:/opt/opencelium/
@@ -58,19 +58,18 @@ services:
       - ./conf/application.yml:/opt/opencelium/backend/src/main/resources/application.yml
       - ./invoker/:/src/main/resources/invoker
       - ./templates/:/src/main/resources/templates
-    command: java -jar /opt/opencelium/opencelium.backend-4.0.jar --spring.config.location=/opt/opencelium/backend/src/main/resources/application.yml      
+    command: java -jar /opt/opencelium/opencelium.backend-4.1.jar --spring.config.location=/opt/opencelium/backend/src/main/resources/application.yml      
 
   mongodb:
     image: mongo:7.0.11
+    container_name: mongodb
     restart: always
-    environment:
-      MONGODB_INITDB_ROOT_USERNAME: oc_admin
-      MONGODB_INITDB_ROOT_PASSWORD: secretsecret
     ports:
       - 27017:27017
     volumes:
       - ./data:/data/db
-             
+      - ./mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh
+
 volumes:
    frontend:
    backend:
