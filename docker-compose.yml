@@ -2,7 +2,7 @@ services:
 
   oc-frontend:
     container_name: oc-frontend
-    image: becongmbh/opencelium-frontend:v4.1
+    image: becongmbh/opencelium-frontend:v4.2
     tty: true
     volumes:
       - frontend:/opt/opencelium/
@@ -26,10 +26,10 @@ services:
     image: mariadb:11.3.2
     restart: always
     environment:
-      MYSQL_DATABASE: opencelium
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: opencelium
-      MYSQL_PASSWORD: secret1234
+      MYSQL_DATABASE: ${OC_MYSQL_DATABASE:?err}
+      MYSQL_ROOT_PASSWORD: ${OC_DB_ROOT_PASSWORD:?err}
+      MYSQL_USER: ${OC_MYSQL_USER:?err}
+      MYSQL_PASSWORD: ${OC_MYSQL_PASSWORD:?err}
     ulimits:
       memlock: "262144"
     volumes:
@@ -39,7 +39,7 @@ services:
 
   oc-backend:
     container_name: oc-backend
-    image: becongmbh/opencelium-backend:v4.1
+    image: becongmbh/opencelium-backend:v4.2
     tty: true
     volumes:
       - backend:/opt/opencelium/
@@ -51,6 +51,11 @@ services:
       - mariadb
       - mongodb
     restart: on-failure
+    environment:
+      MYSQL_USER: ${OC_MYSQL_USER:?err}
+      MYSQL_PASSWORD: ${OC_MYSQL_PASSWORD:?err}
+      OC_MONGODB_USER: ${OC_MONGODB_USER:?err}
+      OC_MONGODB_PASSWORD: ${OC_MONGODB_PASSWORD:?err}
     ports:
       - 9090:9090
     volumes:
@@ -58,12 +63,15 @@ services:
       - ./conf/application.yml:/opt/opencelium/backend/src/main/resources/application.yml
       - ./invoker/:/src/main/resources/invoker
       - ./templates/:/src/main/resources/templates
-    command: java -jar /opt/opencelium/opencelium.backend-4.1.jar --spring.config.location=/opt/opencelium/backend/src/main/resources/application.yml      
+    command: java -jar /opt/opencelium/opencelium.backend-4.2.jar --spring.config.location=/opt/opencelium/backend/src/main/resources/application.yml
 
   mongodb:
     image: mongo:7.0.11
     container_name: mongodb
     restart: always
+    environment:
+      OC_MONGODB_USER: ${OC_MONGODB_USER:?err}
+      OC_MONGODB_PASSWORD: ${OC_MONGODB_PASSWORD:?err}
     ports:
       - 27017:27017
     volumes:
