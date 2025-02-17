@@ -2,13 +2,13 @@ services:
 
   oc-frontend:
     container_name: oc-frontend
-    image: becongmbh/opencelium-frontend:v4.2
+    image: becongmbh/opencelium-frontend:v4.3
     tty: true
     volumes:
       - frontend:/opt/opencelium/
 
   nginx:
-    image: nginx:1.25.5
+    image: nginx:1.27.4
     restart: always
     ports:
       - 80:80
@@ -23,7 +23,7 @@ services:
 #
 
   mariadb:
-    image: mariadb:11.3.2
+    image: mariadb:11.4.5
     restart: always
     environment:
       MYSQL_DATABASE: ${OC_MYSQL_DATABASE:?err}
@@ -39,7 +39,7 @@ services:
 
   oc-backend:
     container_name: oc-backend
-    image: becongmbh/opencelium-backend:v4.2
+    image: becongmbh/opencelium-backend:v4.3
     tty: true
     volumes:
       - backend:/opt/opencelium/
@@ -63,10 +63,10 @@ services:
       - ./conf/application.yml:/opt/opencelium/backend/src/main/resources/application.yml
       - ./invoker/:/src/main/resources/invoker
       - ./templates/:/src/main/resources/templates
-    command: java -jar /opt/opencelium/opencelium.backend-4.2.jar --spring.config.location=/opt/opencelium/backend/src/main/resources/application.yml
+    command: java -jar /opt/opencelium/opencelium.backend-4.3.jar --spring.config.location=/opt/opencelium/backend/src/main/resources/application.yml
 
   mongodb:
-    image: mongo:7.0.11
+    image: mongo:7.0.16
     container_name: mongodb
     restart: always
     environment:
