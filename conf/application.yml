@@ -24,13 +24,13 @@ server:
 spring:
   datasource:
     url: jdbc:mariadb://mariadb:3306/opencelium?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Berlin
-    username: ${MYSQL_USER}
-    password: ${MYSQL_PASSWORD}
+    username: opencelium
+    password: secret1234
     initialization-mode: always
     driver-class-name: org.mariadb.jdbc.Driver
   data:
     mongodb:
-      uri: mongodb://${OC_MONGODB_USER}:${OC_MONGODB_PASSWORD}@mongodb:27017/opencelium
+      uri: mongodb://oc_admin:secretsecret@mongodb:27017/opencelium
   #     Example - mongodb://<username>:<password>@<host>:<port>/<database>
   ###########################################################################
   #                                                                         #
@@ -107,10 +107,10 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/changelog-master.xml
   mvc:
-    throw-exception-if-no-handler-found: true #enables exception handling for endpoints that is not defined in controllers
+    throw-exception-if-no-handler-found: true
   web:
     resources:
-      add-mappings=false:
+      add-mappings=false: 
   ######################################################################
   #                                                                    #
   #   LDAP configuration section.                                      #
@@ -118,7 +118,7 @@ spring:
   #   logging.level.org.springframework.data.ldap: DEBUG settings      #
   #                                                                    #
   ######################################################################
-  security:
+  security: 
 #    ldap:
 #      # LDAP server URL
 #      urls: ldap://localhost:7389
@@ -152,14 +152,14 @@ springdoc:
   swagger-ui:
     path: /docs
     supportedSubmitMethods:
-      - get
-      - put
-      - post
-      - delete
-      - options
-      - head
-      - patch
-      - trace
+    - get
+    - put
+    - post
+    - delete
+    - options
+    - head
+    - patch
+    - trace
     tagsSorter: alpha
     open-api-custom-settings:
       extensions:
@@ -175,7 +175,7 @@ logging:
       springframework:
         data:
           # Activate or deactivate logs during LDAP authentication
-          ldap: OFF # OFF or DEBUG;
+          ldap: false
 
 management:
   health:
@@ -190,7 +190,7 @@ management:
       show-details: always
 
 opencelium:
-  version: 4.3
+  version: 4.4
   ###########################################################################
   #                                                                         #
   #   Is customizable                                                       #
@@ -215,12 +215,12 @@ opencelium:
   notification:
     tools:
       incoming_webhook:
-        url: {insert your webhook url here}
+        url: 
   installation:
     type: docker
   service_portal:
-    base_url: "https://api.serviceportal.com"
-    token: "your-token-here"
+    base_url: https://api.serviceportal.com
+    token: your-token-here
 #  rest_template:
 #    proxy:
 #      host: 127.0.0.1
