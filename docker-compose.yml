@@ -1,7 +1,7 @@
 services:
 
   oc-frontend:
-    image: becongmbh/opencelium-frontend:v4.4
+    image: becongmbh/opencelium-frontend:v4.5
     container_name: oc-frontend
     tty: true
     depends_on:
@@ -22,7 +22,7 @@ services:
       - oc-network
 
   oc-backend:
-    image: becongmbh/opencelium-backend:v4.4
+    image: becongmbh/opencelium-backend:v4.5
     container_name: oc-backend
     tty: true
     depends_on:
@@ -42,12 +42,12 @@ services:
       - ./conf/application.yml:/opt/opencelium/src/main/resources/application.yml
       - ./invoker/:/src/main/resources/invoker
       - ./templates/:/src/main/resources/templates
-    command: java -jar /opt/opencelium/build/libs/opencelium.backend-4.4.jar --spring.config.location=/opt/opencelium/src/main/resources/application.yml
+    command: java -jar /opt/opencelium/build/libs/opencelium.backend-4.5.jar --spring.config.location=/opt/opencelium/src/main/resources/application.yml
     networks:
       - oc-network
 
   mariadb:
-    image: mariadb:11.4.5
+    image: mariadb:11.8.2
     container_name: oc-mariadb
     restart: always
     environment:
@@ -65,7 +65,7 @@ services:
       - oc-network
 
   mongodb:
-    image: mongo:7.0.11
+    image: mongo:7.0.21
     container_name: oc-mongodb
     restart: always
     environment:

@@ -8,6 +8,8 @@
 ###########################################################################
 server:
   port: 9090
+websocket:
+  endpoint: /websocket
 #  ssl:
 #    enabled: true
 #    key-store-type: PKCS12
@@ -107,10 +109,10 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/changelog-master.xml
   mvc:
-    throw-exception-if-no-handler-found: true
+    throw-exception-if-no-handler-found: true #enables exception handling for endpoints that is not defined in controllers
   web:
     resources:
-      add-mappings=false: 
+      add-mappings=false:
   ######################################################################
   #                                                                    #
   #   LDAP configuration section.                                      #
@@ -118,7 +120,7 @@ spring:
   #   logging.level.org.springframework.data.ldap: DEBUG settings      #
   #                                                                    #
   ######################################################################
-  security: 
+  security:
 #    ldap:
 #      # LDAP server URL
 #      urls: ldap://localhost:7389
@@ -152,14 +154,14 @@ springdoc:
   swagger-ui:
     path: /docs
     supportedSubmitMethods:
-    - get
-    - put
-    - post
-    - delete
-    - options
-    - head
-    - patch
-    - trace
+      - get
+      - put
+      - post
+      - delete
+      - options
+      - head
+      - patch
+      - trace
     tagsSorter: alpha
     open-api-custom-settings:
       extensions:
@@ -175,7 +177,7 @@ logging:
       springframework:
         data:
           # Activate or deactivate logs during LDAP authentication
-          ldap: false
+          ldap: OFF # OFF or DEBUG;
 
 management:
   health:
@@ -190,7 +192,7 @@ management:
       show-details: always
 
 opencelium:
-  version: 4.4
+  version: 4.5
   ###########################################################################
   #                                                                         #
   #   Is customizable                                                       #
@@ -215,12 +217,18 @@ opencelium:
   notification:
     tools:
       incoming_webhook:
-        url: 
+        url: {insert your webhook url here}
   installation:
     type: docker
   service_portal:
-    base_url: https://api.serviceportal.com
-    token: your-token-here
+    base_url: https://service.opencelium.io
+    token: "your-token-here"
+#  support:
+#    file:
+#      directory: src/main/resources/support-files
+#      limit:
+#        success: 1
+#        fail: 5
 #  rest_template:
 #    proxy:
 #      host: 127.0.0.1
