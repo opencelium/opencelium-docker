@@ -1,19 +1,21 @@
 services:
 
   oc-frontend:
-    image: becongmbh/opencelium-frontend:v4.5.1
+    image: becongmbh/opencelium-frontend:v4.6.1
     container_name: oc-frontend
     tty: true
     depends_on:
       - oc-backend
+      - mongodb
     restart: always
     ports:
       - 80:80
       - 443:443
     volumes:
       - frontend:/opt/opencelium/src/frontend/
-      - ./conf/nginx.conf:/etc/nginx/conf.d/default.conf
       - ./conf/settings.json:/opt/opencelium/src/frontend/settings.json
+# comment for ssl
+      - ./conf/nginx.conf:/etc/nginx/conf.d/default.conf
 # uncomment for ssl
 #      - ./conf/nginx-ssl.conf:/etc/nginx/conf.d/default.conf
 #      - ./conf/ssl/certs/:/etc/ssl/certs/
@@ -22,12 +24,14 @@ services:
       - oc-network
 
   oc-backend:
-    image: becongmbh/opencelium-backend:v4.5.1
+    image: becongmbh/opencelium-backend:v4.6.1
     container_name: oc-backend
     tty: true
     depends_on:
-      - mariadb
-      - mongodb
+      mariadb:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
     restart: on-failure
     environment:
       MYSQL_USER: ${OC_MYSQL_USER:?err}
@@ -35,14 +39,16 @@ services:
       OC_MONGODB_USER: ${OC_MONGODB_USER:?err}
       OC_MONGODB_PASSWORD: ${OC_MONGODB_PASSWORD:?err}
     expose:
-      - 9090:9090
+      - 9090
+    working_dir: /opt/opencelium
     volumes:
       - backend:/opt/opencelium/
       - oc-sql:/opt/opencelium/database
       - ./conf/application.yml:/opt/opencelium/src/main/resources/application.yml
-      - ./invoker/:/src/main/resources/invoker
-      - ./templates/:/src/main/resources/templates
-    command: java -jar /opt/opencelium/build/libs/opencelium.backend-4.5.1.jar --spring.config.location=/opt/opencelium/src/main/resources/application.yml
+      - ./invoker/:/opt/opencelium/runtime/invoker
+      - ./templates/:/opt/opencelium/runtime/templates
+      - ./logs/:/opt/opencelium/logs
+    command: java -jar /opt/opencelium/build/libs/opencelium.backend-4.6.1.jar --spring.config.location=/opt/opencelium/src/main/resources/application.yml
     networks:
       - oc-network
 
@@ -63,6 +69,11 @@ services:
       - ./mysql:/var/lib/mysql
     networks:
       - oc-network
+    healthcheck:
+      test: ["CMD", "mariadb", "-h", "localhost", "-u", "${OC_MYSQL_USER}", "-p${OC_MYSQL_PASSWORD}", "-e", "SELECT 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   mongodb:
     image: mongo:7.0.21
@@ -72,7 +83,7 @@ services:
       OC_MONGODB_USER: ${OC_MONGODB_USER:?err}
       OC_MONGODB_PASSWORD: ${OC_MONGODB_PASSWORD:?err}
     expose:
-      - 27017:27017
+      - 27017
     volumes:
       - ./data:/data/db
       - ./mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh
