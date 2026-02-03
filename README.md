@@ -7,9 +7,9 @@ of mushrooms in the forest floor links the trees to form the Wood Wide Web. With
 writing and updating API scripts becomes a simple drag and drop for the IT administrator 
 on a convenient front end.
 
-Please visit `opencelium.io <https://www.opencelium.io>`_ for more details.
+Please visit `opencelium.io <https://www.opencelium.io>`__ for more details.
 
-OpenCelium's documentation is hosted at `docs.opencelium.io <https://docs.opencelium.io>`_.
+OpenCelium's documentation is hosted at `docs.opencelium.io <https://docs.opencelium.io>`__ . 
 
 ## Getting started with opencelium-docker
 
@@ -17,7 +17,7 @@ OpenCelium's documentation is hosted at `docs.opencelium.io <https://docs.opence
 
 ### Information about the docker compose file
 
-* only http support
+* http and https support
 * without elastic and kibana
 * recommend to use for testing
 * installation duration approximately 5min
