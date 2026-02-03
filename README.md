@@ -7,9 +7,9 @@ of mushrooms in the forest floor links the trees to form the Wood Wide Web. With
 writing and updating API scripts becomes a simple drag and drop for the IT administrator 
 on a convenient front end.
 
-Please visit `opencelium.io <https://www.opencelium.io>`__ for more details.
+Please visit [opencelium.io](https://www.opencelium.io/) for more details.
 
-OpenCelium's documentation is hosted at `docs.opencelium.io <https://docs.opencelium.io>`__ . 
+OpenCelium's documentation is hosted at [docs.opencelium.io](https://docs.opencelium.io/). 
 
 ## Getting started with opencelium-docker
 
