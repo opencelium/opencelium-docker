@@ -1,7 +1,7 @@
 services:
 
   oc-frontend:
-    image: becongmbh/opencelium-frontend:v4.6.1
+    image: becongmbh/opencelium-frontend:v4.7
     container_name: oc-frontend
     tty: true
     depends_on:
@@ -24,7 +24,7 @@ services:
       - oc-network
 
   oc-backend:
-    image: becongmbh/opencelium-backend:v4.6.1
+    image: becongmbh/opencelium-backend:v4.7
     container_name: oc-backend
     tty: true
     depends_on:
@@ -48,7 +48,7 @@ services:
       - ./invoker/:/opt/opencelium/runtime/invoker
       - ./templates/:/opt/opencelium/runtime/templates
       - ./logs/:/opt/opencelium/logs
-    command: java -jar /opt/opencelium/build/libs/opencelium.backend-4.6.1.jar --spring.config.location=/opt/opencelium/src/main/resources/application.yml
+    command: java -jar /opt/opencelium/build/libs/opencelium.backend-4.7.jar --spring.config.location=/opt/opencelium/src/main/resources/application.yml
     networks:
       - oc-network
 
