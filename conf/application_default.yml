@@ -9,6 +9,7 @@
 server:
   port: 9090
 
+  forward-headers-strategy: native
 websocket:
   endpoint: /ws
 #  ssl:
@@ -27,13 +28,13 @@ websocket:
 spring:
   datasource:
     url: jdbc:mariadb://mariadb:3306/opencelium?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Berlin
-    username: opencelium
-    password: secret1234
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
     initialization-mode: always
     driver-class-name: org.mariadb.jdbc.Driver
   data:
     mongodb:
-      uri: mongodb://oc_admin:secretsecret@mongodb:27017/opencelium
+      uri: mongodb://${OC_MONGODB_USER}:${OC_MONGODB_PASSWORD}@mongodb:27017/opencelium
   #     Example - mongodb://<username>:<password>@<host>:<port>/<database>
   ###########################################################################
   #                                                                         #
@@ -121,7 +122,6 @@ spring:
   #   logging.level.org.springframework.data.ldap: DEBUG settings      #
   #                                                                    #
   ######################################################################
-  security:
 #    ldap:
 #      # LDAP server URL
 #      urls: ldap://localhost:7389
@@ -194,13 +194,18 @@ management:
           UP: 200
 
 opencelium:
-  version: 4.7.1
+  version: 4.8
   ###########################################################################
   #                                                                         #
   #   Is customizable                                                       #
   #                                                                         #
   ###########################################################################
   debug-mode: true
+  forgot-psw:
+    base-url: https://frontend.example.com/reset-password
+    token-activity-time: 240000
+    max-email-validation-attempts: 3
+    lockout-time: 480000
   connector:
     security:
       key: keykeygjhgjh # used for encrypt and decrypt request data
@@ -228,7 +233,7 @@ opencelium:
     type: docker
   service-portal:
     base-url: https://service.opencelium.io
-    token: your-token-here
+    token: your-token-heren
   ###########################################################################
   #                                                                         #
   #   Polyglot Engine Configuration                                         #
