@@ -3,10 +3,28 @@ Changelog
 *********
 
 
+4.8.2
+========
+ 
+:Date: April 15, 2026
+
+
+Fixes
+--------
+ 
+* Fix bug in operator switch reference type (OC-1380)
+* Fix tour bug in connector form (OC-1387)
+* Change invoker name into connector name in ConnectorPanel (OC-1383)
+
+
 4.8.1
 ========
  
-:Date: March 23, 2026
+:Date: March 24, 2026
+
+Features
+--------
+* Update required data (OC-1359)
 
 Fixes
 --------
